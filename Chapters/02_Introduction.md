@@ -3,6 +3,49 @@ Introduction
 
 > "Double, double toil and trouble; Fire burn and caldron bubble."---William Shakespeare, *MacBeth*
 
+The only justification for concurrency is that your program doesn't run fast
+enough. There are a few languages designed to make concurrency relatively
+effortless---at least, their particular flavor of concurrency, which might or might
+not fit your needs---but these are not yet the most popular programming languages.
+Python does what it can to make concurrency "Pythonic," but you must still work
+within the limitations of a language that wasn't designed around concurrency.
+
+You can be thoroughly fluent in Python and know little to nothing about
+concurrency. Indeed, for this book I expect those exact credentials. This means,
+however, that diving into concurrency is a test of patience. You, a competent
+programmer, must suffer the indignity of being thrown back to "beginner" status,
+and learn new fundamental concepts (when, by this time, you thought you were
+pretty accomplished at this programming thing).
+
+I say all this to give you one last chance to rethink your strategy and consider
+whether there might be some other way to make your program run faster. There are
+many simpler approaches:
+
+*   Faster hardware is probably much cheaper than programmer time.
+
+*   Have you upgraded to the latest version of Python? That often produces
+    speed improvements.
+
+*   Use a profiler to discover your speed bottleneck, and see if you can change
+    an algorithm. For example, sometimes the choice of data structure makes all
+    the difference.
+
+*   Try using [Cython](http://cython.org/) on functions with performance bottlenecks.
+
+*   See if your program will run on [PyPy](http://pypy.org/).
+
+*   If your bottlnecks are math-intensive, consider [Numba](http://numba.pydata.org/).
+
+*   Search the Internet for other performance approaches.
+
+If you jump right to concurrency without exploring these other approaches first,
+you might still discover that your problem is dominated by one of these issues and
+you must use them anyway. You might also need to use them in addition to a concurrency
+approach.
+
+What Does the Term *Concurrency* Mean?
+--------------------------------------
+
 > [Ten Thousand Foot Overview]
 
 - Created computers to do things faster
