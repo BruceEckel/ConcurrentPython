@@ -6,6 +6,7 @@
 - Async:
   - http://stackabuse.com/python-async-await-tutorial/
   - https://pymotw.com/3/_sources/asyncio/index.txt
+  - http://aosabook.org/en/500L/a-web-crawler-with-asyncio-coroutines.html
 
 
 http://www.slideshare.net/twleung/a-survey-of-concurrency-constructs
