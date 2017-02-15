@@ -46,31 +46,50 @@ approach.
 What Does the Term *Concurrency* Mean?
 --------------------------------------
 
-> [Ten Thousand Foot Overview]
+As a non-concurrent programmer, you think in linear terms: A program runs from
+beginning to end, performing all its intermediate steps in sequence. This is the
+easiest way to think about programming.
 
-- Created computers to do things faster
+Concurrency breaks a program into pieces, typically called *tasks*. These tasks
+are, as much as possible, run independently of each other, with the hope that
+the whole program will now run faster.
 
-- Still not fast enough!
+That's concurrency in a nutshell: Independently-running tasks.
 
-- Programs have to wait in some places
+At this point your brain should be exploding with questions:
 
-- Can we somehow reduce the waiting?
+*   How do I start a task?
 
-- Make things happen "at the same time" (concurrently)
+*   How do I stop a task?
 
-- Break the program up into pieces (tasks) that can run "simultaneously" with each other
+*   How do I get information into a task?
 
-- Now the questions are:
-  * How do you start a task?
-  * How do you stop a task?
-  * How do you send information in?
-  * How do you get information out?
-  * What is the underlying execution mechanism?
+*   How do I get results from a task?
 
-- You must know the answer to the last question because it impacts the way
-  you write your code, and whether you'll get the speedup you need.
+*   What mechanism drives the tasks?
 
-- The first four questions are answered by the new syntax added in Python 3.4-3.6
+*   How do tasks fail?
+
+*   Can tasks communicate with each other?
+
+*   What happens if two tasks try to use the same piece of storage?
+
+These are not naive---they are precisely the questions you must ask to
+understand concurrency. There is no one answer to any of them. In fact, these
+questions distinguish the different concurrency strategies.
+
+The term "concurrency" is often defined inconsistently in the literature. One of
+the more common distinctions declares concurrency to be when all tasks are being
+driven by a single processor, vs *parallelism* where tasks are distributed among
+multiple processors. There are (mostly historical) reasons for this difference,
+but in this book I relegate "the number of processors driving the tasks" as one
+of the many variables involved with the general problem of concurrency.
+
+Concurrency is initially overwhelming precisely because it is a general goal
+("make a program faster using tasks") with a myriad of strategies to achieve
+that goal---and more strategies regularly appear. The overwhelm diminishes when
+you understand it from the perspective of different competing strategies for the
+same problem.
 
 - What does "asynchronous" mean?
   * When a function finishes vs. when it returns
