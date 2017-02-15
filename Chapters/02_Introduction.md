@@ -91,6 +91,12 @@ that goal---and more strategies regularly appear. The overwhelm diminishes when
 you understand it from the perspective of different competing strategies for the
 same problem.
 
+This book takes the pragmatic approach of only giving you what you need to solve
+your problem, starting with the simplest strategies first. It's not
+*possible* to understand everything about concurrency, so requiring that you do
+so in order to implement the simplest approach necessary to solve your problem
+is unreasonable and impractical.
+
 - What does "asynchronous" mean?
   * When a function finishes vs. when it returns
   * Again, not something you're used to thinking about
