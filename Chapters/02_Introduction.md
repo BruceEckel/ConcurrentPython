@@ -34,7 +34,7 @@ many simpler approaches:
 
 *   See if your program will run on [PyPy](http://pypy.org/).
 
-*   If your bottlnecks are math-intensive, consider [Numba](http://numba.pydata.org/).
+*   If your bottlenecks are math-intensive, consider [Numba](http://numba.pydata.org/).
 
 *   Search the Internet for other performance approaches.
 
@@ -76,10 +76,12 @@ At this point your brain should be exploding with questions:
 
 These are not naive---they are precisely the questions you must ask to
 understand concurrency. There is no one answer to any of them. In fact, these
-questions distinguish the different concurrency strategies.
+questions distinguish the different concurrency strategies. In addition, each
+strategy produces a different set of rules governing how you write concurrent
+code.
 
 The term "concurrency" is often defined inconsistently in the literature. One of
-the more common distinctions declares concurrency to be when all tasks are being
+the more common distinctions declares concurrency to be when all tasks are
 driven by a single processor, vs *parallelism* where tasks are distributed among
 multiple processors. There are (mostly historical) reasons for this difference,
 but in this book I relegate "the number of processors driving the tasks" as one
@@ -87,15 +89,46 @@ of the many variables involved with the general problem of concurrency.
 
 Concurrency is initially overwhelming precisely because it is a general goal
 ("make a program faster using tasks") with a myriad of strategies to achieve
-that goal---and more strategies regularly appear. The overwhelm diminishes when
+that goal---and more strategies regularly appear. This overwhelm diminishes when
 you understand it from the perspective of different competing strategies for the
 same problem.
 
 This book takes the pragmatic approach of only giving you what you need to solve
-your problem, starting with the simplest strategies first. It's not
-*possible* to understand everything about concurrency, so requiring that you do
+your problem, starting with the simplest strategies first. It's exceptionally
+difficult to understand *everything* about concurrency, so requiring that you do
 so in order to implement the simplest approach necessary to solve your problem
 is unreasonable and impractical.
+
+Each strategy has strengths and weaknesses. Typically, one strategy might solve
+some classes of problems quite well, while being relatively ineffective for
+other types of problems. Much of the art and craft of concurrency comes from
+understanding the different strategies and knowing which ones give better
+results for a particular set of constraints.
+
+After this introductory chapter, we'll start with the Actor model. ...
+
+Next, we'll look at the idea of a *message queue*, which solves a specific but
+common type of problem ...
+
+An *embarrasingly parallel* problem is one where the bottleneck comes from having
+a massive amount of data that can easily be broken up into chunks and processed
+separately. To solve this problem you simply need more CPUs working on it, and
+Python provides the `multiprocessing` library to make this relatively easy.
+
+Python 3.6 Asyncio and coroutines when parts of your program spend time waiting
+on external operations.
+
+Foreign function call interface to call out to languages that are specifically
+designed to make concurrency easy. ...
+
+Finally we'll look at one of the more primitive and early constructs, the
+*thread*, along with the rather heavy constraint of Python's global interpreter
+lock. With all the other, better strategies available it's not clear that you
+actually need to understand things at this level, but it's something you might
+need to know if someone asks the question "what about threads."
+
+
+*******************************************************************************
 
 - What does "asynchronous" mean?
   * When a function finishes vs. when it returns
