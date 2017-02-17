@@ -139,194 +139,6 @@ need to know if someone asks the question "what about threads."
 to be chopped up and edited to make it appropriate for this book. Much may not
 survive.
 
-Up to this point we've been programming in a fashion much like the
-*stream-of-consciousness* narrative device in literature: first one thing
-happens, then the next. We're in complete control of all the steps and the order
-they occur. It would be very surprising if we were to set a value to 5, then at
-some point later come back and find it was 47.
-
-We now enter the strange world of concurrency, where this result is not
-surprising at all. Everything you're comfortable believing is no longer
-reliable. It might work and it might not. Most likely it will work under some
-conditions and not in others, and you'll have to know and understand these
-situations in order to determine what works.
-
-As an analogy, your normal life takes place in the world of Newtonian Mechanics.
-Objects have mass: they fall and transfer their momentum. Wires have resistance,
-and light travels in straight lines. But if you enter the world of the very
-small, very hot, very cold or very massive (where we can't exist) things change.
-We can't tell whether something is a particle or a wave, light is affected by
-gravity, and some things become superconductors.
-
-Rather than a single stream-of-consciousness narrative, we're inside a spy novel
-that has numerous stories running at the same time, one for each character. One
-spy leaves microfilm under a special rock, and when the second spy comes to
-retrieve the package, it might already have been taken by a third spy. But this
-particular novel doesn't neatly tie things up; you can easily get to
-the end and never figure out what happens.
-
-Building concurrent applications is much like the game
-(Jenga)[https://en.wikipedia.org/wiki/Jenga], where every time you pull out a
-block and place it on the tower, the whole thing can come crashing down. Every
-tower, and every application, is unique, with its own requirements. What you
-learn from building one system might not apply to the next one.
-
-This chapter is a very basic introduction to concurrency. Although I use the
-most modern Python tools available to demonstrate the principles, the chapter is
-far from a comprehensive treatment of the topic. My goal is to give you enough
-of the fundamentals that you can grasp the complexity---and danger---of the
-issues, to engender a healthy respect for the difficulty of wading into these
-shark-infested waters.
-
-
-The Terminology Problem
------------------------
-
-The terms *concurrent*, *parallel*, *multitasking*, *multiprocessing*,
-*multithreading*, *distributed systems* (and probably others) are used in
-numerous conflicting ways throughout programming literature, and are often
-conflated. After pointing this out in his 2016 presentation [From Concurrent to
-Parallel](https://www.youtube.com/watch?v=NsDE7E8sIdQ), Brian Goetz suggests a
-reasonable dichotomy:
-
-+   Concurrency is about correctly and efficiently controlling access to
-    shared resources.
-
-+   Parallelism uses additional resources to produce an answer faster.
-
-These are good definitions, but there are decades of confusion-producing history
-that fight against fixing the problem. In general, when people use the word
-"concurrency," they mean "everything, the entire mess," and I'll probably fall
-into that practice myself in many places---indeed, most books use the word in the title.
-
-Concurrency often means "more than one task is making progress," while
-parallelism almost always means "more than one task is executing
-simultaneously." You can immediately see the problem with these definitions:
-parallelism also has more than one task "making progress." The distinction is
-the details, in exactly *how* that "progress" is happening. Also, the overlap: a
-program written for parallelism can still sometimes run on a single processor,
-while some concurrent-programming systems can take advantage of more than one
-processor.
-
-Here's another approach, writing the definitions around where the slowdown
-occurs:
-
-*Concurrency*
-
-: Accomplishing more than one task at the same time. One task doesn't need to
-complete before you start working on other tasks. Concurrency solves problems
-where *blocking* occurs---where a task can't progress further until something
-outside its control changes; the most common example is I/O, where a task must
-wait for some input (in which case it is said to be *blocked*). A problem like
-this is said to be *I/O bound*.
-
-*Parallelism*
-
-: Accomplishing more than one task *in multiple places* at the same time. This
-solves so-called *compute-bound* problems, where a program can run faster if you
-split it into multiple parts and run those different parts on different
-processors.
-
-The reason the terminology is confusing is shown in the definitions above: the
-core of both is "accomplishing more than one task at the same time." Parallelism
-adds distribution across multiple processors. More importantly, the two solve
-different types of problems: taking an I/O-bound problem and parallelizing might
-not do you any good because the problem is not overall speed, it's blocking. And
-taking a compute-bound problem and trying to solve it using concurrency on a
-single processor might be a similar waste of time. Both approaches try to
-accomplish more in less time, but the way they achieve speedup is different, and
-depends upon constraints imposed by the problem.
-
-A major reason that the two concepts get mixed together is that many programming
-languages including Python use the same mechanism---the *thread*---to implement
-both concurrency and parallelism.
-
-We can even try to add more granularity to the definitions (however, this is not
-standardized terminology):
-
-+   **Purely Concurrent**: Tasks still run on a single CPU. A purely
-    concurrent system produces results faster than a sequential system, but
-    doesn't run any faster if there are more processors.
-
-+   **Concurrent-Parallel**: Using concurrency techniques, the resulting
-    program takes advantage of more processors and produces results faster.
-
-+   **Parallel-Concurrent**: Written using parallel programming techniques,
-    the resulting program can still run if there is only a single processor
-    (Python `Stream`s are a good example).
-
-+   **Purely Parallel**: Won't run unless there is more than one processor.
-
-This might be a useful taxonomy in some situations.
-
-Language and library support for concurrency seem like perfect candidates for
-the term [Leaky Abstraction](https://en.wikipedia.org/wiki/Leaky_abstraction).
-The goal of an abstraction is to "abstract away" pieces that are not essential
-to the idea at hand, to shield you from needless detail. If the abstraction is
-leaky, those pieces and details keep re-asserting themselves as important,
-regardless of how much you try to hide them.
-
-I've started to wonder whether there's really any abstraction at all---when
-writing these kinds of programs you are never shielded from any of the
-underlying systems and tools, even details about how the CPU cache works.
-Ultimately, if you've been very careful, what you create will work in a
-particular situation, but it won't work in other situations. Sometimes the
-difference is the way two machines are configured, or the estimated load for the
-program. This is not specific to Python per se---it is the nature of concurrent
-and parallel programming.
-
-You might argue that a [pure
-functional](https://en.wikipedia.org/wiki/Purely_functional) language doesn't
-have these restrictions. Indeed, a pure functional language solves a large
-number of concurrency problems, so if you are tackling a difficult concurrency
-problem you might consider writing that portion in a pure functional language.
-But ultimately, if you write a system that has, for example, a queue somewhere,
-if things aren't tuned right and the input rate either isn't estimated correctly
-or throttled (and throttling means different things and has different impacts in
-different situations), that queue will either fill up and block, or overflow. In
-the end, you must understand all the details, and any issue can break your
-system. It's a very different kind of programming.
-
-### A New Definition of Concurrency
-
-For decades, I have periodically grappled with concurrency in various forms,
-and one of the biggest challenges has always been simply defining it. While
-writing this chapter, I finally had an insight which I think captures it:
-
-> Concurrency is a collection of performance techniques focused on the reduction
-> of waiting.
-
-This is actually a rather dense statement, so I'll break it down:
-
-+   It's a *collection*: there are many different approaches to solving the
-    problem. This is one of the issues that makes defining concurrency so
-    challenging, because the techniques vary all over the place.
-
-+   These are *performance techniques*: That's it. The whole point of
-    concurrency is to get your program to run faster. In Python, concurrency
-    is very tricky and difficult, so absolutely do not use it unless you
-    have a significant performance problem---and even then, use the easiest
-    approach that produces the performance you need, because concurrency
-    rapidly becomes unmanageable.
-
-+   The "reduction of waiting" part is important and subtle. Regardless of (for
-    example) how many processors you are running on, you can only produce a
-    benefit when some kind of waiting is taking place. If you ask for I/O and
-    instantly get a result, there's no delay to take advantage of. If you are
-    running multiple tasks on multiple processors and each is running at full
-    capacity and no task is waiting on any other, there's no point in trying
-    to improve your throughput. The only opportunity for concurrency is if
-    some part of your program is forced to wait for some reason, and that
-    waiting can appear in many forms---which explains why there are so many
-    different approaches to concurrency.
-
-It's worth emphasizing that the effectiveness of this definition hinges on the
-word *waiting*. If nothing is waiting there's no opportunity for speedups. And
-if something is waiting, there are numerous approaches to speeding things up and
-these depend on multiple factors including the configuration of the system where
-it's running, the type of problem you're solving, and any number of other
-issues.
-
 Concurrency Superpowers
 -----------------------
 
@@ -395,7 +207,7 @@ it run slower to achieve that.
 In the case of the clones knocking on doors and waiting, even the single-
 processor system benefits from concurrency because it can switch from a task
 that is waiting (*blocked*) to one that is ready to go. But if all the tasks
-can run all the time, then the cost of switching is going to slow everything
+can run all the time, then the cost of switching slows everything
 down, and in that case concurrency usually only makes sense if you *do* have
 multiple processors.
 
@@ -403,7 +215,7 @@ Suppose you are trying to crack some kind of encryption. The more workers trying
 to crack it at the same time, the better chance you have of finding the answer
 sooner. Here, each worker can constantly use as much processor time as you can
 give it, and the best situation is when each worker has their own processor---in
-this case (a compute-bound problem), you should write the code so you *only*
+this case (a *compute-bound* problem), you should write the code so you *only*
 have as many workers as you have processors.
 
 In a customer-service department that takes phone calls, you only have a certain
