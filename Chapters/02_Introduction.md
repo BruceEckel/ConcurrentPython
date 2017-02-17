@@ -113,20 +113,24 @@ common type of problem ...
 An *embarrasingly parallel* problem is one where the bottleneck comes from having
 a massive amount of data that can easily be broken up into chunks and processed
 separately. To solve this problem you simply need more CPUs working on it, and
-Python provides the `multiprocessing` library to make this relatively easy.
+Python provides the `multiprocessing` library to make this relatively easy. There
+are additional libraries and techniques to utilize multiple processors.
 
-Python 3.6 Asyncio and coroutines when parts of your program spend time waiting
-on external operations.
+Next, we'll look at Python 3.6 Asyncio and coroutines, useful when parts of your
+program spend time waiting on external operations (in particular, Internet
+requests).
 
-Foreign function call interface to call out to languages that are specifically
-designed to make concurrency easy. ...
+A *foreign function call interface* allows you to make calls to code written in
+other languages. We can take advantage of this by calling into languages that
+are specifically designed to make concurrency easy. ...
 
 Finally we'll look at one of the more primitive and early constructs, the
-*thread*, along with the rather heavy constraint of Python's global interpreter
-lock. With all the other, better strategies available it's not clear that you
-actually need to understand things at this level, but it's something you might
-need to know if someone asks the question "what about threads."
+*thread*, along with the rather heavy constraint of Python's *global interpreter
+lock* (GIL). With all the other, better strategies available it's not clear that
+you actually need to understand things at this level, but it's something you
+might need to know if someone asks the question "what about threads?"
 
+[Add other topics here as they arise]
 
 *******************************************************************************
 
@@ -135,9 +139,7 @@ need to know if someone asks the question "what about threads."
   * Again, not something you're used to thinking about
   * Because the answer has always been: "at the same time"
 
-> [NOTE] The following has been pasted directly from *On Java 8* and has yet
-to be chopped up and edited to make it appropriate for this book. Much may not
-survive.
+> [NOTE] The following material is still in rough form.
 
 Concurrency Superpowers
 -----------------------
@@ -157,14 +159,6 @@ terminating corridor in the entire building.
 
 Each corridor contains a thousand rooms. Your superpower is getting stretched a
 little thin, so you only make 50 of yourself to search the rooms in parallel.
-
-Once a clone enters a room, it must search through all the cracks and hidden
-pockets of the room. It switches to a second superpower. It divides into a
-million nanobots, each of which flies or crawls to some unseen spot in the room.
-You don't understand this power---it just works, once you start it. Under their
-own control, the nanobots go, search the room and come back and reassemble into
-you, and suddenly, somehow, you just know whether the item is in the room or
-not.
 
 I'd love to be able to say, "Your superpower in the science-fiction movie?
 That's what concurrency is." That it's as simple as splitting yourself in two
@@ -204,19 +198,19 @@ makes sense to write concurrent code. However, there are situations where the
 *model* of concurrency produces much simpler code and it's actually worth having
 it run slower to achieve that.
 
-In the case of the clones knocking on doors and waiting, even the single-
-processor system benefits from concurrency because it can switch from a task
-that is waiting (*blocked*) to one that is ready to go. But if all the tasks
-can run all the time, then the cost of switching slows everything
-down, and in that case concurrency usually only makes sense if you *do* have
-multiple processors.
+In the case of the clones knocking on doors and waiting, even the
+single-processor system benefits from concurrency because it can switch from a
+task that is waiting (*blocked*) to one that is ready to go. But if all the
+tasks can run all the time, then the cost of switching slows everything down,
+and in that case concurrency usually only makes sense if you *do* have multiple
+processors.
 
 Suppose you are trying to crack some kind of encryption. The more workers trying
 to crack it at the same time, the better chance you have of finding the answer
 sooner. Here, each worker can constantly use as much processor time as you can
 give it, and the best situation is when each worker has their own processor---in
-this case (a *compute-bound* problem), you should write the code so you *only*
-have as many workers as you have processors.
+this case (called a *compute-bound* problem), you should write the code so you
+*only* have as many workers as you have processors.
 
 In a customer-service department that takes phone calls, you only have a certain
 number of people, but you can have lots of phone calls. Those people (the
@@ -225,11 +219,10 @@ extra calls must be queued.
 
 In the fairy tale of "The Shoemaker and the Elves," the shoemaker had too much
 work to do and when he was asleep, a group of elves came and made shoes for him.
-Here the work is distributed but even if you have a large number of
-physical processors the bottleneck is in the limitation of building certain
-parts of the shoe---if, for example, the sole takes the longest to make, that
-will limit the rate of shoe creation and change the way you design your
-solution.
+Here the work is distributed but even with a large number of physical processors
+the bottleneck is in the limitation of building certain parts of the shoe---if,
+for example, the sole takes the longest to make, that limits the rate of
+shoe creation and changes the way you design your solution.
 
 Thus, the problem you're trying to solve drives the design of the solution.
 There's the lovely abstraction of breaking a problem into subtasks that "run
@@ -237,7 +230,7 @@ independently," then there's the reality of how it's actually going to happen.
 The physical reality keeps intruding upon, and shaking up, that abstraction.
 
 That's only part of the problem. Consider a factory that makes cakes. We've
-somehow distributed the cake-making task among workers, but now it's time for a
+somehow distributed cake-making among workers, but now it's time for a
 worker to put their cake in a box. There's a box sitting there, ready to receive
 a cake. But before the worker can put the cake into the box, another worker
 darts in and puts *their* cake in the box instead! Our worker is already putting
@@ -247,26 +240,25 @@ where the result depends on which worker can get their cake in the box first
 (you typically solve the problem using a locking mechanism so one worker can
 grab the box first and prevent cake-smashing).
 
-The problem occurs when tasks that execute "at the same time" interfere with
-each other. This can happen in such a subtle and occasional manner it's probably
-fair to say that concurrency is "arguably deterministic but effectively
+This problem occurs when tasks that execute "at the same time" interfere with
+each other. It can happen in such a subtle and occasional manner that it's
+probably fair to say that concurrency is "arguably deterministic but effectively
 nondeterministic." That is, you can hypothetically write concurrent programs
 that, through care and code inspection, work correctly. In practice, however,
 it's much more common to write concurrent programs that only appear to work, but
 given the right conditions, will fail. These conditions might never actually
 occur, or occur so infrequently you never see them during testing. In fact, it's
 often impossible to write test code to generate failure conditions for your
-concurrent program. The resulting failures often only occur occasionally, and as
+concurrent program. The resulting failures might only occur occasionally, and as
 a result they appear in the form of customer complaints. This is one of the
 strongest arguments for studying concurrency: If you ignore it, you're likely to
 get bitten.
 
 Concurrency thus seems fraught with peril, and if that makes you a bit fearful,
 this is probably a good thing. Although Python makes large improvements in
-concurrency, there are still no safety nets like compile-time verification or
-checked exceptions to tell you when you make a mistake. With concurrency, you're
-on your own, and only by being knowledgeable, suspicious and aggressive can you
-write reliable concurrent code in Python.
+concurrency, there are still no safety nets to tell you when you make a mistake.
+With concurrency, you're on your own, and only by being knowledgeable,
+suspicious and aggressive can you write reliable concurrent code.
 
 
 Concurrency is for Speed
@@ -277,9 +269,9 @@ wondering if it's worth the trouble. The answer is "no, unless your program
 isn't running fast enough." And you'll want to think carefully before deciding
 it isn't. Do not casually jump into the well of grief that is concurrent
 programming. If there's a way to run your program on a faster machine or if you
-can profile it and discover the bottleneck and swap in a faster algorithm in
-that spot, do that instead. Only if there's clearly no other choice should you
-begin using concurrency, and then only in isolated places.
+can profile it and discover the bottleneck and swap in a faster algorithm, do
+that instead. Only if there's clearly no other choice should you begin using
+concurrency, and then only in isolated places.
 
 The speed issue sounds simple at first: If you want a program to run faster,
 break it into pieces and run each piece on a separate processor. With our
@@ -315,25 +307,26 @@ standpoint, it makes no sense to use concurrency on a single-processor machine
 unless one of the tasks might block.
 
 A common example of performance improvements in single-processor systems is
-*event-driven programming*, in particular user-interface programming. Consider
-a program that performs some long-running operation and thus ends up ignoring
-user input and being unresponsive. If you have a "quit" button, you don't want
-to poll it in every piece of code you write. This produces awkward code,
-without any guarantee that a programmer won't forget to perform the check.
-Without concurrency, the only way to produce a responsive user interface is for
-all tasks to periodically check for user input. By creating a separate thread
-of execution to respond to user input, the program guarantees a certain level
-of responsiveness.
+*event-driven programming*, in particular user-interface programming. Consider a
+program that performs some long-running operation and thus ends up ignoring user
+input and being unresponsive. If you have a "quit" button, you don't want to
+poll it in every piece of code you write. This produces awkward code, without
+any guarantee that a programmer won't forget to perform the check. Without
+concurrency, the only way to produce a responsive user interface is for all
+tasks to periodically check for user input. By creating a separate task that
+responds to user input, the program guarantees a certain level of
+responsiveness.
 
 A straightforward way to implement concurrency is at the operating system level,
 using *processes*, which are different from threads. A process is a
 self-contained program running within its own address space. Processes are
 attractive because the operating system usually isolates one process from
 another so they cannot interfere with each other, which makes programming with
-processes relatively easy. In contrast, threads share resources like memory and
-I/O, so a fundamental difficulty in writing multithreaded programs is
-coordinating these resources between different thread-driven tasks, so they
-cannot be accessed by more than one task at a time.
+processes relatively easy (this is supported by Python's `multiprocessing`
+module). In contrast, threads share resources like memory and I/O, so a
+fundamental difficulty in writing multithreaded programs is coordinating these
+resources between different thread-driven tasks, so they cannot be accessed by
+more than one task at a time.
 
 Some people go so far as to advocate processes as the only reasonable approach
 to concurrency,^[Eric Raymond, for example, makes a strong case in *The Art of
@@ -345,18 +338,20 @@ concurrency refrain, "That approach works in some cases but not in other cases")
 Some programming languages are designed to isolate concurrent tasks from each
 other. These are generally called *functional languages*, where each function
 call produces no side effects (and so cannot interfere with other functions) and
-can thus be driven as an independent task. *Erlang* is one such language, and it
-includes safe mechanisms for one task to communicate with another. If you find
-that a portion of your program must make heavy use of concurrency and you are
-running into excessive problems trying to build that portion, you might consider
-creating that part of your program in a dedicated concurrency language.
+can thus be driven as an independent task. *Erlang* (and it's more modern
+variant, *Elixir*) is one such language, and it includes safe mechanisms for one
+task to communicate with another. If you find that a portion of your program
+must make heavy use of concurrency and you are running into excessive problems
+trying to build that portion, you might consider creating that part of your
+program in a dedicated concurrency language.
 
-Python took the more traditional approach of adding support for threading on top
-of a sequential language.^[It could be argued that trying to bolt concurrency
-onto a sequential language is a doomed approach, but you'll have to draw your
-own conclusions.] Instead of forking external processes in a multitasking
-operating system, threading creates tasks *within* the single process
-represented by the executing program.
+Initially, Python took the more traditional approach of adding support for
+threading on top of a sequential language.^[It could be argued that trying to
+bolt concurrency onto a sequential language is a doomed approach, but you'll
+have to draw your own conclusions.] Instead of forking external processes in a
+multitasking operating system, threading creates tasks *within* the single
+process represented by the executing program. As we shall see, more modern
+approaches have since been added to Python.
 
 Concurrency imposes costs, including complexity costs, but can be outweighed by
 improvements in program design, resource balancing, and user convenience. In
@@ -375,8 +370,8 @@ maxims:
 > 3. Just because it works doesn't mean it's not broken
 > 4. You must still understand it
 
-These apply to a number of languages. However, there do exist languages
-that are designed to prevent these issues.
+These apply to a number of languages. However, there do exist languages designed
+to prevent these issues.
 
 ### 1. Don't do it
 
@@ -389,9 +384,8 @@ avoid it, your life will be much easier.
 
 The *only* thing that justifies concurrency is speed. If your program isn't
 running fast enough---and be careful here, because just *wanting* it to run
-faster isn't justification---first apply a profiler (see [Profiling and
-Optimizing]) to discover whether there's some other optimization you can
-perform.
+faster isn't justification---first apply a profiler to discover whether there's
+some other optimization you can perform.
 
 If you're compelled into concurrency, take the simplest, safest approach to the
 problem. Use well-known libraries and write as little of your own code as
@@ -417,9 +411,6 @@ You must understand the deep complexities of object construction so that your
 constructor doesn't accidentally expose data to change by other threads. The
 list goes on.
 
-Although these topics are too complex to give you expertise in this chapter, you
-must be aware of them.
-
 ### 3. Just because it works doesn't mean it's not broken
 
 You can easily write a concurrent program that appears to work but is actually
@@ -439,11 +430,12 @@ conditions---inevitably as a user problem after you've deployed the program.
     concurrent programs fail in some way when those design parameters are
     exceeded.
 
-In other areas of programming, we develop a sense of determinism. Everything happens as
-promised (or implied) by the language, which is comforting and expected---after
-all, the point of a programming language is to get the machine to do what we
-want. Moving from the world of deterministic programming into the realm of
-concurrent programming, we encounter a cognitive bias called the [Dunning-Kruger
+In other areas of programming, we develop a sense of determinism. Everything
+happens as promised (or implied) by the language, which is comforting and
+expected---after all, the point of a programming language is to get the machine
+to do what we want. Moving from the world of deterministic programming into the
+realm of concurrent programming, we encounter a cognitive bias called the
+[Dunning-Kruger
 Effect](https://en.wikipedia.org/wiki/Dunning%E2%80%93Kruger_effect) which can
 be summed up as "the less you know, the more you think you know." It means
 "...relatively unskilled persons suffer illusory superiority, mistakenly
@@ -457,9 +449,9 @@ vulnerable to concurrency bugs. The compiler doesn't tell you when something is
 incorrect. To get it right you must hold all the issues of concurrency in your
 forebrain as you study your code.
 
-In all the non-concurrent areas of Python, "no obvious bugs and no compiler
-complaints" seems to mean that everything is OK. With concurrency, it means
-nothing. The very worst thing you can be in this situation is "confident."
+In all the non-concurrent areas of Python, "no obvious bugs" seems to mean that
+everything is OK. With concurrency, it means nothing. The very worst thing you
+can be in this situation is "confident."
 
 ### 4. You must still understand it.
 
@@ -474,8 +466,7 @@ languages and use Python for everything else?
 Alas, you cannot escape so easily:
 
 +   Even if you never explicitly create a thread, frameworks you use
-    might---for example, the Swing Graphical User Interface (GUI) library, or
-    something as simple as the `Timer` class.
+    might.
 
 +   Here's the worst thing: when you create components, you must assume those
     components might be reused in a multithreading environment. Even if your
@@ -483,40 +474,27 @@ Alas, you cannot escape so easily:
     thread-safe," you must still know enough to realize that such a statement is
     important and what it means.
 
-People sometimes suggest that concurrency is too advanced to include in a book
-that introduces the language. They argue that concurrency is a discrete topic
-that can be treated independently, and the few cases where it appears in daily
-programming (such as graphical user interfaces) can be handled with special
-idioms. Why introduce such a complex topic if you can avoid it?
+Unfortunately, you don't get to choose when threads appear in your programs.
+Just because you never start a thread yourself doesn't mean you can avoid
+writing threaded code. For example, Web systems are one of the most common
+applications, and are inherently multithreaded---Web servers typically contain
+multiple processors, and parallelism is an ideal way to utilize these
+processors. As simple as such a system might seem, you must understand
+concurrency to write it properly.
 
-Alas, if only it were so. Unfortunately, you don't get to choose when threads
-appear in your programs. Just because you never start a thread
-yourself doesn't mean you can avoid writing threaded code. For example, Web
-systems are one of the most common applications, and are inherently
-multithreaded---Web servers typically contain multiple processors, and
-parallelism is an ideal way to utilize these processors. As simple as such a
-system might seem, you must understand concurrency to write it properly.
-
-Python is a multithreaded language, and concurrency issues are present whether you
-are aware of them or not. As a result, there are many Python programs in use that
-either just work by accident, or work most of the time and mysteriously break
-every now and again because of undiscovered flaws. Sometimes this breakage is
-relatively benign, but sometimes it means the loss of valuable data, and if you
-aren't at least aware of concurrency issues, you can end up assuming the problem
-is somewhere else rather than in your code. These kinds of issues can also be
-exposed or amplified if a program is moved to a multiprocessor system.
-Basically, knowing about concurrency makes you aware that apparently correct
-programs can exhibit incorrect behavior.
+Python supports conccurrency, so concurrency issues are present whether you are
+aware of them or not. As a result, programs might just work by accident, or work
+most of the time and mysteriously break every now and again because of
+undiscovered flaws. Sometimes this breakage is relatively benign, but sometimes
+it means the loss of valuable data, and if you aren't at least aware of
+concurrency issues, you can end up assuming the problem is somewhere else rather
+than in your code. These kinds of issues can also be exposed or amplified if a
+program is moved to a multiprocessor system. Basically, knowing about
+concurrency makes you aware that apparently correct programs can exhibit
+incorrect behavior.
 
 Summary
 -------
-
-The only justification for concurrency is "too much waiting." This can also
-include the responsiveness of user interfaces, but as Java is effectively not
-used to build user interfaces,^[The libraries are there and the language was
-intended to be used for this purpose but in practice it happens so rarely as to
-be able to say "never."] this simply means "your program isn't running fast
-enough."
 
 If concurrency were easy, there would be no reason to avoid it. Because it is
 hard, you should consider carefully whether it's worth the effort. Can you
@@ -527,19 +505,22 @@ pieces and run those pieces on different machines?
 Occam's (or Ockham's) razor is an oft-misunderstood principle. I've seen at
 least one movie where they define it as "the simplest solution is the correct
 one," as if it's some kind of law. It's actually a guideline: When faced with a
-number of approaches, first try the one that requires the fewest assumptions.
-In the programming world, this has evolved into "try the simplest thing that
-could possibly work." When you know something about a particular tool---as you
-now know something about concurrency---it can be quite tempting to use it, or
-to specify ahead of time that your solution must "run fast," to justify
-designing in concurrency from the beginning. But our programming version of
-Occam's razor says that you should try the simplest approach first (which will
-also be cheaper to develop) and see if it's good enough.
+number of approaches, first try the one that requires the fewest assumptions. In
+the programming world, this has evolved into "try the simplest thing that could
+possibly work." When you know something about a particular tool, it can be quite
+tempting to use it, or to specify ahead of time that your solution must "run
+fast," to justify designing in concurrency from the beginning. But our
+programming version of Occam's razor says that you should try the simplest
+approach first (which will also be cheaper to develop) and see if it's good
+enough.
 
 As I came from a low-level background (physics and computer engineering), I was
 prone to imagining the cost of all the little wheels turning. I can't count the
 number of times I was certain the simplest approach could never be fast enough,
-only to discover upon trying that it was more than adequate.
+only to discover upon trying that it was more than adequate. This was especially
+true with Python, where I imagined that the cost of the interpreter couldn't
+possibly keep up with the speed of C++ or Java, only to discover that the Python
+solution often ran as fast or even faster.
 
 ### Drawbacks
 
@@ -559,17 +540,15 @@ The main drawbacks to concurrency are:
     on others. If you develop a program on the latter, you might get badly
     surprised when you distribute it.
 
-In addition, there's an art to the application of concurrency. Java is designed
-to allow you to create as many objects as necessary to solve your problem---at
-least in theory.^[Creating millions of objects for finite-element analysis in
-engineering, for example, might not be practical in Java without the
-*Flyweight* design pattern.] However, `Thread`s are not typical objects: each
-has its own execution environment including a stack and other necessary
-elements, making it much larger than a normal object. In most environments it's
-only possible to create a few thousand `Thread` objects before running out of
-memory. You normally only need a handful of threads to solve a problem, so this
-is typically not much of a limit, but for some designs it becomes a constraint
-that might force you to use an entirely different scheme.
+In addition, there's an art to the application of concurrency. Python is
+designed to allow you to create as many objects as necessary to solve your
+problem---at least in theory.^[Creating millions of objects for finite-element
+analysis in engineering, for example, might not be practical in Python without
+the *Flyweight* design pattern.] However, because of overhead it's only possible
+to create a few thousand threads before running out of memory. You normally only
+need a handful of threads to solve a problem, so this is typically not much of a
+limit, but for some designs it becomes a constraint that might force you to use
+an entirely different scheme.
 
 #### The Shared-Memory Pitfall
 
@@ -586,22 +565,16 @@ we can't even get falsifiability most of the time.]
 
 I've met numerous people who have an impressive amount of confidence in their
 ability to write correct threaded programs. I occasionally start thinking I can
-get it right, too. For one particular program, I initially wrote it when we
-only had single-CPU machines. I was able to convince myself that, because of
-the promises I thought I understood about Java tools, the program was correct.
-And it didn't fail on my single-CPU machine.
+get it right, too. For one particular program, I initially wrote it when we only
+had single-CPU machines. I was able to convince myself that, because of the
+promises I thought I understood, the program was correct. And it didn't fail on
+my single-CPU machine.
 
 Fast forward to machines with multiple CPUs. I was surprised when the program
-broke, but that's one of the problems. It's not Java's fault; "write once, run
-everywhere" cannot possibly extend to concurrency on single vs. multicore
-machines. It's a fundamental problem with concurrency. You *can* actually
+broke, but that's a fundamental problem with concurrency. You *can* actually
 discover some concurrency problems on a single-CPU machine, but there are other
 problems that won't appear until you try it on a multi-CPU machine, where your
 threads are actually running in parallel.
-
-As another example, the dining philosophers problem can easily be adjusted so
-deadlock rarely happens, giving you the impression that everything is
-copacetic.
 
 You can never let yourself become too confident about your programming
 abilities when it comes to shared-memory concurrency.
