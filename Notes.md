@@ -7,6 +7,12 @@
   - http://stackabuse.com/python-async-await-tutorial/
   - https://pymotw.com/3/_sources/asyncio/index.txt
   - http://aosabook.org/en/500L/a-web-crawler-with-asyncio-coroutines.html
+  - https://vorpus.org/blog/some-thoughts-on-asynchronous-api-design-in-a-post-asyncawait-world/
+  - http://techspot.zzzeek.org/2015/02/15/asynchronous-python-and-databases/
+
+- Curio
+  - http://curio.readthedocs.io/en/latest/
+  - https://github.com/dabeaz/curio
 
 
 http://www.slideshare.net/twleung/a-survey-of-concurrency-constructs
@@ -19,6 +25,8 @@ http://amzn.to/2j1oneL
 Calling Go from Python:
 https://github.com/jbuberel/buildmodeshared/tree/master/gofrompython
 For windows it would have to be done in the bash shell but that might be OK
+
+RabbitMQ allows cross-language calls.
 
 If tasks don’t wait on each other then they are compute intensive
 
@@ -92,9 +100,6 @@ https://asmeurer.github.io/python3-presentation/slides.html
 - Beck Design Rules: http://martinfowler.com/bliki/BeckDesignRules.html
 
 - Bound Inner Classes: http://code.activestate.com/recipes/577070-bound-inner-classes/
-
-- Concurrency:
-    https://github.com/dabeaz/curio
 
 - Message broker:
     http://www.rabbitmq.com/tutorials/tutorial-one-python.html
