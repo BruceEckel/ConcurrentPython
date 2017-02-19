@@ -41,7 +41,10 @@ events, returning and finishing, now happen at different points in time: they
 are *asynchronous*.
 
 Demo: each coroutine controls a pixel
-http://stackoverflow.com/questions/4842156/manipulating-individual-pixel-colors-in-the-tkinter-canvas-widget
+
+- http://py.processing.org/
+
+- http://stackoverflow.com/questions/4842156/manipulating-individual-pixel-colors-in-the-tkinter-canvas-widget
 
 Miscellaneous
 =============

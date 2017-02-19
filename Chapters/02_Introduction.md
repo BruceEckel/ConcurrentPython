@@ -39,9 +39,9 @@ many simpler approaches:
 *   Search the Internet for other performance approaches.
 
 If you jump right to concurrency without exploring these other approaches first,
-you might still discover that your problem is dominated by one of these issues and
-you must use them anyway. You might also need to use them in addition to a concurrency
-approach.
+you might still discover that your problem is dominated by one of these issues
+and you must use them anyway, after a complicated struggle with concurrency. You
+might also need to use them in addition to a concurrency approach.
 
 What Does the Term *Concurrency* Mean?
 --------------------------------------
@@ -78,7 +78,9 @@ These are not naive---they are precisely the questions you must ask to
 understand concurrency. There is no one answer to any of them. In fact, these
 questions distinguish the different concurrency strategies. In addition, each
 strategy produces a different set of rules governing how you write concurrent
-code.
+code. Different strategies also have domains of application where they shine,
+and other domains where they don't provide much benefit, or can even produce
+slower results.
 
 The term "concurrency" is often defined inconsistently in the literature. One of
 the more common distinctions declares concurrency to be when all tasks are
@@ -105,20 +107,32 @@ other types of problems. Much of the art and craft of concurrency comes from
 understanding the different strategies and knowing which ones give better
 results for a particular set of constraints.
 
-After this introductory chapter, we'll start with the Actor model. ...
+After this introductory chapter, we'll start by exploring the concept of
+*Communicating Sequential Processes* (CSP), which confines each task inside its
+own world where it can't accidentally cause trouble for other tasks. Information
+is passed in and out through concurrency-safe *channels*.
+
+The CSP model is implemented within a number of concurrency strategies. We'll start
+by looking at the `multiprocessing` module that's part of the standard Python
+distribution.
 
 Next, we'll look at the idea of a *message queue*, which solves a specific but
-common type of problem ...
+common type of problem ... We'll explore `RabbitMQ` and the `Celery` library
+which wraps it to make it more Pythonic.
 
-An *embarrasingly parallel* problem is one where the bottleneck comes from having
-a massive amount of data that can easily be broken up into chunks and processed
-separately. To solve this problem you simply need more CPUs working on it, and
-Python provides the `multiprocessing` library to make this relatively easy. There
-are additional libraries and techniques to utilize multiple processors.
+The next chapter explores how adding further constraints to CSP can produce
+significant benefits by learning about the *Actor Model*. ...
 
-Next, we'll look at Python 3.6 Asyncio and coroutines, useful when parts of your
-program spend time waiting on external operations (in particular, Internet
-requests).
+The typical incentive for using multiple processors is when you have data that
+can be broken up into chunks and processed separately. There's a second common
+type of concurrency problem, which is when parts of your program spend time
+waiting on external operations---for example, Internet requests. In this
+situation it's not so much the number of processors you have but that they are
+stuck waiting on one thing when they might be working on something else. In
+fact, you can make much better use of just a single processor by allowing it to
+jump from a place where it is waiting (*blocked*) to somewhere it can do some
+useful work. The Python 3.6 Asyncio and coroutines are targeted to this exact
+problem, and we'll spend the chapter exploring this strategy.
 
 A *foreign function call interface* allows you to make calls to code written in
 other languages. We can take advantage of this by calling into languages that
