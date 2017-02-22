@@ -1,36 +1,47 @@
+# General Notes for Study and Exploration
+> Feel free to pull-request something you think might be helpful here
+
+- Concurrency Overviews
+  - [Ted Leung](http://www.slideshare.net/twleung/a-survey-of-concurrency-constructs)
+  - [The Art of Multiprocessor Programming, Revised Reprint](http://amzn.to/2j1oneL)
 
 - Actors:
-  - http://godaddy.github.io/Thespian/doc/
-  - https://engineering.godaddy.com/why-godaddy-built-an-actor-system-library/
+  - [Thespian Docs](http://godaddy.github.io/Thespian/doc/)
+  - [Thespian Motivation](https://engineering.godaddy.com/why-godaddy-built-an-actor-system-library/)
+  - Can Ponylang interface with Python?
 
 - Async:
-  - http://stackabuse.com/python-async-await-tutorial/
-  - https://pymotw.com/3/_sources/asyncio/index.txt
-  - http://aosabook.org/en/500L/a-web-crawler-with-asyncio-coroutines.html
-  - https://vorpus.org/blog/some-thoughts-on-asynchronous-api-design-in-a-post-asyncawait-world/
-  - http://techspot.zzzeek.org/2015/02/15/asynchronous-python-and-databases/
+  - [PyMotw overview](https://pymotw.com/3/asyncio/index.html)
+  - [Web Crawler, Guido et. al.](http://aosabook.org/en/500L/a-web-crawler-with-asyncio-coroutines.html)
+  - [Mike Bayer on Async](http://techspot.zzzeek.org/2015/02/15/asynchronous-python-and-databases/)
+
+- AioHTTP:
+  - [Docs](http://aiohttp.readthedocs.io/en/stable/)
+  - [An Intro](http://stackabuse.com/python-async-await-tutorial/)
 
 - Curio
-  - http://curio.readthedocs.io/en/latest/
-  - https://github.com/dabeaz/curio
+  - [Difference between asyncio and curio](https://vorpus.org/blog/some-thoughts-on-asynchronous-api-design-in-a-post-asyncawait-world/)
+  - [Docs](http://curio.readthedocs.io/en/latest/)
+  - [Repo](https://github.com/dabeaz/curio)
+
+- Calling Go from Python (example of taking advantage of another language's concurrency model)
+  - [Example](https://github.com/jbuberel/buildmodeshared/tree/master/gofrompython)
+    (For windows it would have to be done in the bash shell but that might be OK)
+  - RabbitMQ allows cross-language calls.
+
+- An example: Each task controls a pixel/block on the screen. Produces a visual,
+  graphic idea of what's going on.
+  - Which graphics library to use?
+  - [Processing](http://py.processing.org/)
+  - [Tkinter](http://stackoverflow.com/questions/4842156/manipulating-individual-pixel-colors-in-the-tkinter-canvas-widget)
+
+- Asyncio example: Webcomic Reader
+  - Text-file database keeps track of last comic read
+  - Each comic is simply opened in a browser tab
 
 
-http://www.slideshare.net/twleung/a-survey-of-concurrency-constructs
-
-
-The Art of Multiprocessor Programming, Revised Reprint
-http://amzn.to/2j1oneL
-
-
-Calling Go from Python:
-https://github.com/jbuberel/buildmodeshared/tree/master/gofrompython
-For windows it would have to be done in the bash shell but that might be OK
-
-RabbitMQ allows cross-language calls.
-
-If tasks don’t wait on each other then they are compute intensive
-
-Ideally, make tasks that don’t block on other tasks (deadlock prone)
+General
+=======
 
 The concept of whether something is synchronous refers to when a function
 finishes vs. when a function returns. In the vast majority of Python code these
@@ -40,14 +51,23 @@ caller *before* the function finishes---typically much sooner. So the two
 events, returning and finishing, now happen at different points in time: they
 are *asynchronous*.
 
-Demo: each coroutine controls a pixel
+If tasks don’t wait on each other then they are compute intensive
 
-- http://py.processing.org/
+Ideally, make tasks that don’t block on other tasks (deadlock prone)
 
-- http://stackoverflow.com/questions/4842156/manipulating-individual-pixel-colors-in-the-tkinter-canvas-widget
+
+
+Tools
+=====
+
+- Pipenv
+- Codeclimate
+
 
 Miscellaneous
 =============
+
+> Many of these were collected for a general Python book, not necessarily for concurrency
 
 - Code style checkers: flake8 and hacking
 
