@@ -11,6 +11,7 @@
   - Can Ponylang interface with Python?
 
 - Async:
+  - [Christian Medina](https://hackernoon.com/threaded-asynchronous-magic-and-how-to-wield-it-bba9ed602c32#.l8tws7nkv)
   - [PyMotw overview](https://pymotw.com/3/asyncio/index.html)
   - [Web Crawler, Guido et. al.](http://aosabook.org/en/500L/a-web-crawler-with-asyncio-coroutines.html)
   - [Mike Bayer on Async](http://techspot.zzzeek.org/2015/02/15/asynchronous-python-and-databases/)
