@@ -3,7 +3,7 @@ Introduction
 
 > "Double, double toil and trouble; Fire burn and caldron bubble."---William Shakespeare, *MacBeth*
 
-The only justification for concurrency is that your program doesn't run fast
+The only justification for concurrency is if your program doesn't run fast
 enough. There are a few languages designed to make concurrency relatively
 effortless---at least, their particular flavor of concurrency, which might or might
 not fit your needs---but these are not yet the most popular programming languages.
@@ -14,8 +14,8 @@ You can be thoroughly fluent in Python and know little to nothing about
 concurrency. Indeed, for this book I expect those exact credentials. This means,
 however, that diving into concurrency is a test of patience. You, a competent
 programmer, must suffer the indignity of being thrown back to "beginner" status,
-and learn new fundamental concepts (when, by this time, you thought you were
-pretty accomplished at this programming thing).
+to learn new fundamental concepts (when, by this time, you thought you were
+an accomplished programmer).
 
 I say all this to give you one last chance to rethink your strategy and consider
 whether there might be some other way to make your program run faster. There are
@@ -50,13 +50,13 @@ As a non-concurrent programmer, you think in linear terms: A program runs from
 beginning to end, performing all its intermediate steps in sequence. This is the
 easiest way to think about programming.
 
-Concurrency breaks a program into pieces, typically called *tasks*. These tasks
-are, as much as possible, run independently of each other, with the hope that
-the whole program will now run faster.
+Concurrency breaks a program into pieces, typically called *tasks*. As much as
+possible, these tasks run independently of each other, with the hope that the
+whole program runs faster.
 
 That's concurrency in a nutshell: Independently-running tasks.
 
-At this point your brain should be exploding with questions:
+At this point your mind should be filled with questions:
 
 *   How do I start a task?
 
@@ -90,16 +90,16 @@ but in this book I relegate "the number of processors driving the tasks" as one
 of the many variables involved with the general problem of concurrency.
 
 Concurrency is initially overwhelming precisely because it is a general goal
-("make a program faster using tasks") with a myriad of strategies to achieve
-that goal---and more strategies regularly appear. This overwhelm diminishes when
-you understand it from the perspective of different competing strategies for the
+("make a program faster using tasks") with myriad strategies to achieve that
+goal (and more strategies regularly appear). The overwhelm diminishes when you
+understand it from the perspective of different competing strategies for the
 same problem.
 
 This book takes the pragmatic approach of only giving you what you need to solve
-your problem, starting with the simplest strategies first. It's exceptionally
-difficult to understand *everything* about concurrency, so requiring that you do
-so in order to implement the simplest approach necessary to solve your problem
-is unreasonable and impractical.
+your problem, presenting the simplest strategies first whenever possible. It's
+exceptionally difficult to understand *everything* about concurrency, so
+requiring that you do so in order to implement the simplest approach necessary
+to solve your problem is unreasonable and impractical.
 
 Each strategy has strengths and weaknesses. Typically, one strategy might solve
 some classes of problems quite well, while being relatively ineffective for
@@ -129,7 +129,7 @@ type of concurrency problem, which is when parts of your program spend time
 waiting on external operations---for example, Internet requests. In this
 situation it's not so much the number of processors you have but that they are
 stuck waiting on one thing when they might be working on something else. In
-fact, you can make much better use of just a single processor by allowing it to
+fact, you can make much better use of a single processor by allowing it to
 jump from a place where it is waiting (*blocked*) to somewhere it can do some
 useful work. The Python 3.6 Asyncio and coroutines are targeted to this exact
 problem, and we'll spend the chapter exploring this strategy.
