@@ -40,6 +40,8 @@
   - Text-file database keeps track of last comic read
   - Each comic is simply opened in a browser tab
 
+- Misc
+  - Bridge between Python and Java: https://www.py4j.org/
 
 General
 =======
