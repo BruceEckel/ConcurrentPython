@@ -15,6 +15,10 @@
   - [PyMotw overview](https://pymotw.com/3/asyncio/index.html)
   - [Web Crawler, Guido et. al.](http://aosabook.org/en/500L/a-web-crawler-with-asyncio-coroutines.html)
   - [Mike Bayer on Async](http://techspot.zzzeek.org/2015/02/15/asynchronous-python-and-databases/)
+  
+- Communicating Sequential Processes (CSP)
+  - [PyCSP](https://github.com/runefriborg/pycsp/wiki)
+  - [PyCSP Slides](http://arild.github.io/csp-presentation/#1)
 
 - AioHTTP:
   - [Docs](http://aiohttp.readthedocs.io/en/stable/)
