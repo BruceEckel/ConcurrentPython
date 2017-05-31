@@ -28,6 +28,9 @@
   - [Difference between asyncio and curio](https://vorpus.org/blog/some-thoughts-on-asynchronous-api-design-in-a-post-asyncawait-world/)
   - [Docs](http://curio.readthedocs.io/en/latest/)
   - [Repo](https://github.com/dabeaz/curio)
+  
+- Remote Objects
+  - [Pyro4](https://pythonhosted.org/Pyro4/) Mature Python remote object implementation.
 
 - Calling Go from Python (example of taking advantage of another language's concurrency model)
   - [Example](https://github.com/jbuberel/buildmodeshared/tree/master/gofrompython)
