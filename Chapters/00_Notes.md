@@ -47,6 +47,10 @@
   - Text-file database keeps track of last comic read
   - Each comic is simply opened in a browser tab
 
+- [Pachyderm Pipeline System](http://docs.pachyderm.io/en/latest/reference/pachyderm_pipeline_system.html)
+  - [Slack channel]( http://slack.pachyderm.io/)
+  - "Our official release for the CLI are for OSX and Linux as of now.  However, we do have windows users that work with Pachyderm via the new Linux subsystem in Windows 10.  Also, the CLI is only one choice for interacting with Pachyderm.  You can also use the Python, Go, or other client, which should work just fine on Windows."
+
 - Misc
   - Bridge between Python and Java: https://www.py4j.org/
 
