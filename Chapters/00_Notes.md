@@ -20,6 +20,11 @@
   - [PyCSP](https://github.com/runefriborg/pycsp/wiki)
   - [PyCSP Slides](http://arild.github.io/csp-presentation/#1)
 
+- [Join Calculus](https://en.wikipedia.org/wiki/Join-calculus)
+  - [Chymyst — declarative concurrency in Scala](https://github.com/Chymyst/chymyst-core/) -- good resource for
+    ideas and examples.
+  - [Join-calculus for Python](https://github.com/maandree/join-python)
+
 - AioHTTP:
   - [Docs](http://aiohttp.readthedocs.io/en/stable/)
   - [An Intro](http://stackabuse.com/python-async-await-tutorial/)
