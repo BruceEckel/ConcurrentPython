@@ -1,4 +1,28 @@
-# General Notes for Study and Exploration
+General
+=======
+
+Concurrency: Taking a program that isn't running fast enough, breaking it into
+pieces, and "running those pieces separately." The what and how of "running separately"
+is where all the details and complexity lie for the various concurrency strategies.
+
+- Idea: Usually the driver is "not fast enough" but sometimes (ironically) it can be
+  "too complicated." Some concurrency solutions simplify the problem enough to make
+  them attractive for other than speed reasons!
+
+The concept of whether something is synchronous refers to when a function
+finishes vs. when a function returns. In the vast majority of Python code these
+two points are identical, a.k.a synchronous: a function returns when it
+finishes. But with an asynchronous call, the function returns control to the
+caller *before* the function finishes---typically much sooner. So the two
+events, returning and finishing, now happen at different points in time: they
+are *asynchronous*.
+
+If tasks don’t wait on each other then they are compute intensive
+
+Ideally, make tasks that don’t block on other tasks (deadlock prone)
+
+
+## For Study and Exploration
 > Feel free to pull-request something you think might be helpful here
 
 - Concurrency Overviews
@@ -71,31 +95,6 @@ What Confuses You About Concurrency?
 - How to write things that can easily be scaled without being a hassle
 - Does async and await preclude gevent, twisted, etc.
 - How do I write code/libraries compliant with async and await?
-
-General
-=======
-
-Concurrency: Taking a program that isn't running fast enough, breaking it into
-pieces, and "running those pieces separately." The what and how of "running separately"
-is where all the details and complexity lie for the various concurrency strategies.
-
-- Idea: Usually the driver is "not fast enough" but sometimes (ironically) it can be
-  "too complicated." Some concurrency solutions simplify the problem enough to make
-  them attractive for other than speed reasons!
-
-The concept of whether something is synchronous refers to when a function
-finishes vs. when a function returns. In the vast majority of Python code these
-two points are identical, a.k.a synchronous: a function returns when it
-finishes. But with an asynchronous call, the function returns control to the
-caller *before* the function finishes---typically much sooner. So the two
-events, returning and finishing, now happen at different points in time: they
-are *asynchronous*.
-
-If tasks don’t wait on each other then they are compute intensive
-
-Ideally, make tasks that don’t block on other tasks (deadlock prone)
-
-
 
 Tools
 =====
