@@ -53,7 +53,7 @@ Ideally, make tasks that don’t block on other tasks (deadlock prone)
   - [Docs](http://aiohttp.readthedocs.io/en/stable/)
   - [An Intro](http://stackabuse.com/python-async-await-tutorial/)
 
-- Curio
+- Curio (and the newer Trio)
   - [Difference between asyncio and curio](https://vorpus.org/blog/some-thoughts-on-asynchronous-api-design-in-a-post-asyncawait-world/)
   - [Docs](http://curio.readthedocs.io/en/latest/)
   - [Repo](https://github.com/dabeaz/curio)
