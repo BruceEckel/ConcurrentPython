@@ -1,2 +1,2 @@
 -   [Concurrent Python Developer Retreat](
-    https://rawgit.com/BruceEckel/ConcurrentPython/[branch]/[filename.ext])
+    https://cdn.rawgit.com/BruceEckel/ConcurrentPython/a498964e/events/ConcurrentPythonDeveloperRetreat.html])
