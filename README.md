@@ -1,4 +1,4 @@
-## Note the upcoming [Concurrent Python Developer Retreat](http://mindviewinc.com/ConcurrentPythonDeveloperRetreat.html) Featuring Luciano Ramalho
+## Note the upcoming [Concurrent Python Developer Retreat](http://mindviewinc.com/ConcurrentPythonDeveloperRetreat.html) Featuring Luciano Ramalho, July 16-19 2017 in Crested Butte, Colorado
 # ConcurrentPython
 An intermediate-to-advanced book on Python concurrency
 
