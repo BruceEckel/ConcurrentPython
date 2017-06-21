@@ -1,4 +1,4 @@
-## Note the upcoming [Concurrent Python Developer Retreat](www.Developer-Retreat.com) Featuring Luciano Ramalho
+## Note the upcoming [Concurrent Python Developer Retreat](http://mindviewinc.com/ConcurrentPythonDeveloperRetreat.html) Featuring Luciano Ramalho
 # ConcurrentPython
 An intermediate-to-advanced book on Python concurrency
 
