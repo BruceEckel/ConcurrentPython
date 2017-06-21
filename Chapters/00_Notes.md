@@ -39,6 +39,8 @@ Ideally, make tasks that don’t block on other tasks (deadlock prone)
   - [PyMotw overview](https://pymotw.com/3/asyncio/index.html)
   - [Web Crawler, Guido et. al.](http://aosabook.org/en/500L/a-web-crawler-with-asyncio-coroutines.html)
   - [Mike Bayer on Async](http://techspot.zzzeek.org/2015/02/15/asynchronous-python-and-databases/)
+  - [Youtube: asyncawait and asyncio in Python 3 6 and beyond](https://www.youtube.com/watch?v=2ZFFv-wZ8_g)
+  - uvloop: faster replacement for the built-in asyncio event loop.
 
 - Communicating Sequential Processes (CSP)
   - [PyCSP](https://github.com/runefriborg/pycsp/wiki)
