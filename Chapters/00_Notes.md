@@ -110,6 +110,8 @@ Miscellaneous
 
 > Many of these were collected for a general Python book, not necessarily for concurrency
 
+- [Nice intro to Python debugging](https://blog.sentry.io/2017/06/22/debugging-python-errors)
+
 - Code style checkers: flake8 and hacking
 
 - ptpython: better python REPL
