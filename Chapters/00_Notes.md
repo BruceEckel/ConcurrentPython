@@ -28,6 +28,7 @@ Ideally, make tasks that don’t block on other tasks (deadlock prone)
 - Concurrency Overviews
   - [Ted Leung](http://www.slideshare.net/twleung/a-survey-of-concurrency-constructs)
   - [The Art of Multiprocessor Programming, Revised Reprint](http://amzn.to/2j1oneL)
+  - [A Helpful Reading List of some selected topics](https://github.com/python-trio/trio/wiki/Reading-list)
 
 - Actors:
   - [Thespian Docs](http://godaddy.github.io/Thespian/doc/)
