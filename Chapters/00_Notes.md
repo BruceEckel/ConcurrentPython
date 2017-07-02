@@ -5,9 +5,10 @@ Concurrency: Taking a program that isn't running fast enough, breaking it into
 pieces, and "running those pieces separately." The what and how of "running separately"
 is where all the details and complexity lie for the various concurrency strategies.
 
-- Another Idea: Usually the driving force is "not fast enough" but sometimes (ironically) it can be
-  "too complicated." Some concurrency solutions simplify the problem enough to make
-  them attractive for other than speed reasons!
+- On top of this, a small fraction of problems use some concurrency solutions as a structuring mechanism. 
+  Usually the driving force is "not fast enough" but sometimes (ironically) it can be
+  "too complicated." In general using concurrency when speed is not your problem
+  seems like a code smell.
 
 The concept of whether something is synchronous refers to when a function
 finishes vs. when a function returns. In the vast majority of Python code these
