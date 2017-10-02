@@ -5,7 +5,7 @@ Concurrency: Taking a program that isn't running fast enough, breaking it into
 pieces, and "running those pieces separately." The what and how of "running separately"
 is where all the details and complexity lie for the various concurrency strategies.
 
-- On top of this, a small fraction of problems use some concurrency solutions as a structuring mechanism. 
+- On top of this, a small fraction of problems use some concurrency solutions as a structuring mechanism.
   Usually the driving force is "not fast enough" but sometimes (ironically) it can be
   "too complicated." In general using concurrency when speed is not your problem
   seems like a code smell.
@@ -62,7 +62,7 @@ Ideally, make tasks that don’t block on other tasks (deadlock prone)
   - [Difference between asyncio and curio](https://vorpus.org/blog/some-thoughts-on-asynchronous-api-design-in-a-post-asyncawait-world/)
   - [Docs](http://curio.readthedocs.io/en/latest/)
   - [Repo](https://github.com/dabeaz/curio)
-  
+
 - Remote Objects
   - [Pyro4](https://pythonhosted.org/Pyro4/) Mature Python remote object implementation.
 
@@ -84,6 +84,9 @@ Ideally, make tasks that don’t block on other tasks (deadlock prone)
 - [Pachyderm Pipeline System](http://docs.pachyderm.io/en/latest/reference/pachyderm_pipeline_system.html)
   - [Slack channel]( http://slack.pachyderm.io/)
   - "Our official release for the CLI are for OSX and Linux as of now.  However, we do have windows users that work with Pachyderm via the new Linux subsystem in Windows 10.  Also, the CLI is only one choice for interacting with Pachyderm.  You can also use the Python, Go, or other client, which should work just fine on Windows."
+
+- Queue-based Concurrency
+  - Celery on Rabbit MQ
 
 - Misc
   - Bridge between Python and Java: https://www.py4j.org/
