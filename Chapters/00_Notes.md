@@ -80,6 +80,8 @@ Ideally, make tasks that don’t block on other tasks (deadlock prone)
 - Asyncio example: Webcomic Reader
   - Text-file database keeps track of last comic read
   - Each comic is simply opened in a browser tab
+  
+- [DASK parallel computing library for analytic computing](https://dask.pydata.org)
 
 - [Pachyderm Pipeline System](http://docs.pachyderm.io/en/latest/reference/pachyderm_pipeline_system.html)
   - [Slack channel]( http://slack.pachyderm.io/)
