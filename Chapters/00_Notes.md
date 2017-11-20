@@ -36,6 +36,8 @@ Ideally, make tasks that don’t block on other tasks (deadlock prone)
   - [Thespian Docs](http://godaddy.github.io/Thespian/doc/)
   - [Thespian Motivation](https://engineering.godaddy.com/why-godaddy-built-an-actor-system-library/)
   - Can Ponylang interface with Python?
+  - [dramatiq: Simple distributed task processing for Python 3](
+    https://github.com/Bogdanp/dramatiq)
 
 - Async:
   - [Christian Medina](https://hackernoon.com/threaded-asynchronous-magic-and-how-to-wield-it-bba9ed602c32#.l8tws7nkv)
@@ -80,7 +82,7 @@ Ideally, make tasks that don’t block on other tasks (deadlock prone)
 - Asyncio example: Webcomic Reader
   - Text-file database keeps track of last comic read
   - Each comic is simply opened in a browser tab
-  
+
 - [DASK parallel computing library for analytic computing](https://dask.pydata.org)
 
 - [Pachyderm Pipeline System](http://docs.pachyderm.io/en/latest/reference/pachyderm_pipeline_system.html)
@@ -92,6 +94,7 @@ Ideally, make tasks that don’t block on other tasks (deadlock prone)
 
 - Misc
   - Bridge between Python and Java: https://www.py4j.org/
+  - Cython for speed, making it easier: https://github.com/AlanCristhian/statically
 
 What Confuses You About Concurrency?
 ====================================
