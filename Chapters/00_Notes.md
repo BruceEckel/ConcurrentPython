@@ -95,6 +95,7 @@ Ideally, make tasks that don’t block on other tasks (deadlock prone)
 - Misc
   - Bridge between Python and Java: https://www.py4j.org/
   - Cython for speed, making it easier: https://github.com/AlanCristhian/statically
+  - Compiler: https://nuitka.net/
 
 What Confuses You About Concurrency?
 ====================================
