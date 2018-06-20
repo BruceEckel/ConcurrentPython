@@ -1,14 +1,16 @@
 Introduction
 ============
 
-> "Double, double toil and trouble; Fire burn and caldron bubble."---William Shakespeare, *MacBeth*
+> "Double, double toil and trouble; Fire burn and caldron bubble."---William
+> Shakespeare, *MacBeth*
 
 The only justification for concurrency is if your program doesn't run fast
 enough. There are a few languages designed to make concurrency relatively
-effortless---at least, their particular flavor of concurrency, which might or might
-not fit your needs---but these are not yet the most popular programming languages.
-Python does what it can to make concurrency "Pythonic," but you must still work
-within the limitations of a language that wasn't designed around concurrency.
+effortless---at least, their particular flavor of concurrency, which might or
+might not fit your needs---but these are not yet the most popular programming
+languages. Python does what it can to make concurrency "Pythonic," but you must
+still work within the limitations of a language that wasn't designed around
+concurrency.
 
 You can be thoroughly fluent in Python and know little to nothing about
 concurrency. Indeed, for this book I expect those exact credentials. This means,
@@ -82,12 +84,14 @@ code. Different strategies also have domains of application where they shine,
 and other domains where they don't provide much benefit, or can even produce
 slower results.
 
-The term "concurrency" is often defined inconsistently in the literature. One of
-the more common distinctions declares concurrency to be when all tasks are
-driven by a single processor, vs *parallelism* where tasks are distributed among
-multiple processors. There are (mostly historical) reasons for this difference,
-but in this book I relegate "the number of processors driving the tasks" as one
-of the many variables involved with the general problem of concurrency.
+The term "concurrency" is often defined inconsistently in the literature. One
+of the more common distinctions declares concurrency to be when all tasks are
+driven by a single processor, vs *parallelism* where tasks are distributed
+among multiple processors. There are (mostly historical) reasons for this
+difference, but in this book I relegate "the number of processors driving the
+tasks" as one of the many variables involved with the general problem of
+concurrency. Concurrency doesn't increase the number of CPU cycles you have
+available---it tries to use them better.
 
 Concurrency is initially overwhelming precisely because it is a general goal
 ("make a program faster using tasks") with myriad strategies to achieve that

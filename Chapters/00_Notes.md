@@ -7,14 +7,13 @@ is where all the details and complexity lie for the various concurrency strategi
 
 - On top of this, a small fraction of problems use some concurrency solutions as a structuring mechanism.
   Usually the driving force is "not fast enough" but sometimes (ironically) it can be
-  "too complicated." In general using concurrency when speed is not your problem
-  seems like a code smell.
+  "too complicated."
 
 The concept of whether something is synchronous refers to when a function
-finishes vs. when a function returns. In the vast majority of Python code these
-two points are identical, a.k.a synchronous: a function returns when it
-finishes. But with an asynchronous call, the function returns control to the
-caller *before* the function finishes---typically much sooner. So the two
+finishes vs. when a function returns. In the vast majority of Python code a
+function returns when it finishes, so these two points are identical, that is,
+*synchronous*. But with an asynchronous call, the function returns control to
+the caller *before* the function finishes---typically much sooner. So the two
 events, returning and finishing, now happen at different points in time: they
 are *asynchronous*.
 
@@ -25,6 +24,12 @@ Ideally, make tasks that don’t block on other tasks (deadlock prone)
 
 ## For Study and Exploration
 > Feel free to pull-request something you think might be helpful here
+
+- Trio
+  - [docs](https://trio.readthedocs.io/en/latest/)
+  - [Difference between asyncio and curio](https://vorpus.org/blog/some-thoughts-on-asynchronous-api-design-in-a-post-asyncawait-world/)
+  - [Docs](http://curio.readthedocs.io/en/latest/)
+  - [Repo](https://github.com/dabeaz/curio)
 
 - General Concurrency
   - [Ted Leung](http://www.slideshare.net/twleung/a-survey-of-concurrency-constructs)
@@ -59,11 +64,6 @@ Ideally, make tasks that don’t block on other tasks (deadlock prone)
 - AioHTTP:
   - [Docs](http://aiohttp.readthedocs.io/en/stable/)
   - [An Intro](http://stackabuse.com/python-async-await-tutorial/)
-
-- Curio (and the newer Trio)
-  - [Difference between asyncio and curio](https://vorpus.org/blog/some-thoughts-on-asynchronous-api-design-in-a-post-asyncawait-world/)
-  - [Docs](http://curio.readthedocs.io/en/latest/)
-  - [Repo](https://github.com/dabeaz/curio)
 
 - Remote Objects
   - [Pyro4](https://pythonhosted.org/Pyro4/) Mature Python remote object implementation.
